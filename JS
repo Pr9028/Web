@@ -1,0 +1,43 @@
+document.addEventListener('DOMContentLoaded', () => {
+    const newItemInput = document.getElementById('new-item');
+    const addButton = document.getElementById('add-btn');
+    const list = document.getElementById('list');
+  
+    // Add new item
+    addButton.addEventListener('click', () => {
+      const itemText = newItemInput.value.trim();
+      if (itemText) {
+        addBucketListItem(itemText);
+        newItemInput.value = '';
+      }
+    });
+  
+    // Add item on pressing Enter
+    newItemInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        addButton.click();
+      }
+    });
+  
+    // Function to add a new bucket list item
+    function addBucketListItem(text) {
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <span>${text}</span>
+        <button class="delete-btn">✕</button>
+      `;
+      list.appendChild(li);
+  
+      // Mark as completed
+      li.addEventListener('click', () => {
+        li.classList.toggle('completed');
+      });
+  
+      // Delete item
+      const deleteButton = li.querySelector('.delete-btn');
+      deleteButton.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent marking as completed when deleting
+        li.remove();
+      });
+    }
+  });
